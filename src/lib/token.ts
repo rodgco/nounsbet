@@ -2,55 +2,57 @@ import Contract from '$lib/contract';
 import { getContractAddressesForChainOrThrow } from '@nouns/sdk';
 
 import { NounsTokenABI } from '@nouns/sdk';
-import type { NounsToken as INounsToken } from '@nouns/contracts/dist/typechain/NounsToken';
+import type { NounsToken } from '@nouns/contracts/dist/typechain/NounsToken';
+import type { NounSeed } from '@nouns/assets/dist/types';
 
 const chainId = <string>import.meta.env.VITE_NETWORK_CHAINID;
 const { nounsToken } = getContractAddressesForChainOrThrow(parseInt(chainId, 16));
 
-import { BigNumber } from 'ethers';
 import type { ethers, BigNumberish } from 'ethers';
 
-type INounsSeed = [
-	[number, number, number, number, number] & {
-		background: number;
-		body: number;
-		accessory: number;
-		head: number;
-		glasses: number;
-	}
-];
 interface INounsTokenState {
-	currentNounID: BigNumberish;
-	currentNounSeed: INounsSeed;
+	totalSupply: BigNumberish;
 }
 
-class NounsToken extends Contract<INounsToken, INounsTokenState> {
+class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 	constructor(network: string, address: string, abi: ethers.ContractInterface) {
-		super(network, address, abi, { currentNounID: 0, currentNounSeed: null }, { forceChain: true });
+		super(network, address, abi, { totalSupply: null }, { forceChain: true });
 
-		this.contract.on('NounCreated', (tokenId: BigNumberish | null, seed: null) =>
+		this.contract.on('NounCreated', (_tokenId: BigNumberish | null, _seed: null) =>
 			this.state.update((current) => ({
 				...current,
-				currentNounID: tokenId,
-				currentNounSeed: seed
+				totalSupply: <number>current.totalSupply + 1
 			}))
 		);
+
+		this.load();
 	}
 
 	async load() {
-		// @ts-ignore: Unreachable code error
-		const currentNounID = BigNumber.from((await this.contract.totalSupply()) - 1);
-		const currentNounSeed = <INounsSeed>(<unknown>await this.contract.seeds(currentNounID));
+		await this.totalSupply();
+	}
+
+	async getSeed(id: BigNumberish): Promise<NounSeed> {
+		try {
+			return <NounSeed>await this.contract.seeds(id);
+		} catch {
+			return { background: null, body: null, accessory: null, head: null, glasses: null };
+		}
+	}
+
+	async totalSupply(): Promise<BigNumberish> {
+		const totalSupply = await this.contract.totalSupply();
 
 		this.state.update((current) => ({
 			...current,
-			currentNounID,
-			currentNounSeed
+			totalSupply
 		}));
+
+		return totalSupply;
 	}
 }
 
-const nounsTokenInstance = new NounsToken(chainId, nounsToken, NounsTokenABI);
-nounsTokenInstance.load();
+const nounsTokenInstance = new NounsTokenContract(chainId, nounsToken, NounsTokenABI);
+// nounsTokenInstance.load();
 
 export default nounsTokenInstance;
