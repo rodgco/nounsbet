@@ -36,8 +36,22 @@ class NounsDescriptorContract extends Contract<NounsDescriptor, INounsDescriptor
 	}
 
 	async load() {
-		await this.getAccessoryCount();
-		await this.getBackgroundCount();
+		const accessoryCount = await this.contract.accessoryCount();
+		const backgroundCount = await this.contract.backgroundCount();
+		const bodyCount = await this.contract.bodyCount();
+		const glassesCount = await this.contract.glassesCount();
+		const headCount = await this.contract.headCount();
+
+		this.state.update((current) => ({
+			...current,
+			accessoryCount,
+			backgroundCount,
+			bodyCount,
+			glassesCount,
+			headCount
+		}));
+
+		return [accessoryCount, backgroundCount, bodyCount, glassesCount, headCount];
 	}
 
 	async getColorFromPalette(palleteIndex: BigNumberish, colorIndex: BigNumberish): Promise<string> {
@@ -52,18 +66,52 @@ class NounsDescriptorContract extends Contract<NounsDescriptor, INounsDescriptor
 			...current,
 			accessoryCount
 		}));
+
+		return accessoryCount;
 	}
 
 	async getBackgroundCount() {
-		const backGroundNT = this.contract.backgroundCount();
-
-		const accessoryCount = await this.contract.accessoryCount();
+		const backgroundCount = await this.contract.backgroundCount();
 
 		this.state.update((current) => ({
 			...current,
-			accessoryCount
+			backgroundCount
 		}));
+
+		return backgroundCount;
 	}
+
+	async getBodyCount() {
+		const bodyCount = await this.contract.bodyCount();
+
+		this.state.update((current) => ({
+			...current,
+			bodyCount
+		}));
+
+		return bodyCount;
+	}
+
+	async getGlassesCount() {
+		const glassesCount = await this.contract.glassesCount();
+
+		this.state.update((current) => ({
+			...current,
+			glassesCount
+		}));
+
+		return glassesCount;
+	}
+
+	async getHeadCount() {
+		const headCount = await this.contract.headCount();
+
+		this.state.update((current) => ({
+			...current,
+			headCount
+		}));
+
+		return headCount;
 	}
 
 	async getHead(id: BigNumberish): Promise<string> {
@@ -82,5 +130,6 @@ const nounsDescriptorInstance = new NounsDescriptorContract(
 	nounsDescriptor,
 	NounsDescriptorABI
 );
+nounsDescriptorInstance.load();
 
 export default nounsDescriptorInstance;
