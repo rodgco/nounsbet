@@ -1,6 +1,4 @@
 <script lang="ts">
-	import nounsDescriptor from '$lib/descriptor';
-
 	import { ImageData } from '@nouns/assets';
 	import { buildSVG } from '@nouns/sdk';
 
@@ -13,12 +11,9 @@
 
 	let image: string = '';
 
-	$: console.log($nounsDescriptor, { bodies: bodies.length });
 	$: parts = [bodies[body], accessories[accessory], heads[head], glasses[glassy]];
-	$: console.log(parts);
-	$: console.log('Body', body);
 	$: image = buildSVG(
-		parts.filter((e) => !!e),
+		parts.filter((e) => !!e), // Remove undefined items
 		palette,
 		backgrounds[0]
 	);
