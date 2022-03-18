@@ -1,15 +1,19 @@
-# FrontEnd
+# NounsBet 
 
-This is the SvelteKit based frontend, it's main function is to enable user interaction and dispatch transactions to the dapp.
+It's betting time for Nouns!
 
-## Config
+NounsBet is a web3 app.
 
-It has one configuration file (.env), a sample .env (.env.sample) is provided, please make a copy to .env and update the required date every time something changes.
+## FAQ
 
-## Dapp Updates
+### Is NounsBet associated with NounsDAO?
 
-There are basically two updates that need to be reflected here when something change in the dapp:
+No, they are not associated. NounsBet runs on top of all the Open Source and Smart Contract infrastructure built by the NounsDAO. As a way to "give back" to the Nouns community, including the DAO and Nounders, NounsBet will direct part of the HouseMoney to NounsDAO treasury.
 
-1. Contract address must be updated at .env file.
-2. Artifacts must be copied to lib folder.
+### Do you need to own a Noun to bet on NounsBet?
 
+No, you don't need a Noun to play on NounsBet. NounBet is proud to be open.
+
+### Can I use "$WEIRD_TOKEN" to bet on NounsDAO?
+
+No, please! NounsBet doesn't want the trouble of swaping, staking and all that DeFi stuff. NounsBet accepts WEth, which is available
