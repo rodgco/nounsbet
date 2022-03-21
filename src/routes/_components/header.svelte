@@ -2,8 +2,6 @@
 	import { onMount } from 'svelte';
 	import nounsToken from '$lib/token';
 
-	import Contact from '../modals/_Contact.svelte';
-
 	let opener: HTMLElement;
 
 	onMount(() => {
@@ -27,20 +25,20 @@
 		</div>
 		<div class="info">{$nounsToken.chainId}</div>
 		{#if !$nounsToken.correctChain}
-			<button class="action" on:click={() => nounsToken.changeNetwork()}>Change to Polygon</button>
+			<button class="action" on:click={() => nounsToken.changeNetwork('0x1')}
+				>Change to Polygon</button
+			>
 		{/if}
 	{/if}
 	<button type="button" id="mainMenuOpen" hidden bind:this={opener} />
 	<nav>
-		<ul>
-			<li><a href="/about" class="action">Sobre</a></li>
-			<li><a href="/faq" class="action">FAQ</a></li>
-			<li><a href="#contact" class="action" rel="external">Contato</a></li>
-		</ul>
+		<slot name="nav">
+			<ul>
+				<li><a href="#">Entry</a></li>
+			</ul>
+		</slot>
 	</nav>
 </header>
-
-<Contact />
 
 <style>
 	header {
@@ -50,7 +48,7 @@
 		display: flex;
 		border-bottom: var(--border-hairline);
 	}
-	header a {
+	header :global(a) {
 		display: inline-block;
 		text-decoration: none;
 		color: var(--color-flowText);
@@ -58,16 +56,16 @@
 	header nav {
 		padding: 0.5em 0;
 	}
-	header li {
+	header :global(li) {
 		display: inline;
 		list-style: none;
 		margin-left: 1.5em;
 	}
-	header li a {
+	header :global(li a) {
 		transition: transform 0.3s;
 	}
-	header li a:focus,
-	header li a:hover {
+	header :global(li a:focus),
+	header :global(li a:hover) {
 		transform: scale(1.25);
 	}
 	h1 {
@@ -76,7 +74,7 @@
 	h1 ~ * {
 		flex-grow: 0;
 	}
-	#mainMenuOpen + nav ul:after {
+	#mainMenuOpen + nav :global(ul:after) {
 		top: 0.88rem;
 		right: 0.85rem;
 		width: 1.5rem;
@@ -85,7 +83,7 @@
 			center center no-repeat;
 		background-size: cover;
 	}
-	#mainMenuOpen + nav ul:before {
+	#mainMenuOpen + nav :global(ul:before) {
 		font-size: 1.5rem;
 		padding: 0.5rem 1rem;
 		background: var(--color-chrome-bg);
@@ -124,7 +122,7 @@
 			opacity: 1;
 			transition: left 0s, opacity 0.5s;
 		}
-		#mainMenuOpen + nav ul {
+		#mainMenuOpen + nav :global(ul) {
 			flex-grow: 0;
 			display: flex;
 			flex-wrap: wrap;
@@ -140,19 +138,19 @@
 			border-radius: var(--borderRadius-outer);
 			transition: top 0.5s;
 		}
-		#mainMenuOpen:focus + nav ul,
-		#mainMenuOpen + nav:focus-within ul {
+		#mainMenuOpen:focus + nav :global(ul),
+		#mainMenuOpen + nav:focus-within :global(ul) {
 			top: 0;
 		}
-		#mainMenuOpen + nav li {
+		#mainMenuOpen + nav :global(li) {
 			width: 34%;
 			margin: 0 1em 1em;
 		}
-		#mainMenuOpen + nav li:nth-child(even) {
+		#mainMenuOpen + nav :global(li:nth-child(even)) {
 			margin-left: 0;
 		}
-		header > nav a,
-		header > nav a.action {
+		header > nav :global(a),
+		header > nav :global(a.action) {
 			display: block;
 			padding: 0.5em 1em;
 			text-align: center;
@@ -162,14 +160,14 @@
 			border-radius: 0.25em;
 			transition: transform 0.3s;
 		}
-		header > nav a:focus,
-		header > nav a:hover,
-		header > nav a.action:focus,
-		header > nav a.action:hover {
+		header > nav :global(a:focus),
+		header > nav :global(a:hover),
+		header > nav :global(a.action:focus),
+		header > nav :global(a.action:hover) {
 			transform: scale(1.1);
 			box-shadow: none;
 		}
-		#mainMenuOpen + nav ul:before {
+		#mainMenuOpen + nav :global(ul:before) {
 			content: 'Main Menu';
 			display: block;
 			width: 100%;
@@ -178,7 +176,7 @@
 			background: var(--color-chrome-bg);
 			border-bottom: 1px solid var(--color-shadow);
 		}
-		#mainMenuOpen + nav ul:after {
+		#mainMenuOpen + nav :global(ul:after) {
 			content: '';
 			display: block;
 			position: absolute;

@@ -4,7 +4,14 @@
 </script>
 
 <div id="fauxBody">
-	<Header />
+	<Header>
+		<ul slot="nav">
+			<li><a href="/bet">Bet!!!</a></li>
+			<li><a href="/about">Sobre</a></li>
+			<li><a href="/faq">FAQ</a></li>
+			<li><button on:click={contact.showModal}>Contato</button></li>
+		</ul>
+	</Header>
 	<main>
 		<slot />
 	</main>

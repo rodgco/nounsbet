@@ -4,7 +4,6 @@
 	import NounSVG from './_components/NounSVG.svelte';
 
 	let id = 240;
-	$: console.log($nounsToken);
 	$: totalSupply = $nounsToken.totalSupply;
 </script>
 
