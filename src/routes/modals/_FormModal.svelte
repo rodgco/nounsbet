@@ -1,10 +1,10 @@
 <script lang="ts">
 	export let id: string;
-	export let target: string;
+	export let action: string;
 	export let method: string = 'POST';
 </script>
 
-<form {id} class="modal" {target} {method}>
+<form {id} class="modal" {action} {method}>
 	<!-- svelte-ignore a11y-missing-content a11y-invalid-attribute -->
 	<a href="#" class="modalClose" hidden />
 	<div>

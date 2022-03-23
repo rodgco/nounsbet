@@ -2,7 +2,7 @@
 	import Modal from './_FormModal.svelte';
 </script>
 
-<Modal id="contact" method="post" target="/api/contact">
+<Modal id="contact" method="post" action="/api/send_message">
 	<svelte:fragment slot="header">Contact Us</svelte:fragment>
 	<svelte:fragment slot="fieldset">
 		<label>
