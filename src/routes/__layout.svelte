@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Header from './_components/header.svelte';
 	import Footer from './_components/footer.svelte';
+
+	import Contact from './modals/_Contact.svelte';
 </script>
 
 <div id="fauxBody">
@@ -9,7 +11,7 @@
 			<li><a href="/bet">Bet!!!</a></li>
 			<li><a href="/about">Sobre</a></li>
 			<li><a href="/faq">FAQ</a></li>
-			<li><button on:click={contact.showModal}>Contato</button></li>
+			<li><a href="#contact" class="action">Contact</a></li>
 		</ul>
 	</Header>
 	<main>
@@ -18,6 +20,8 @@
 
 	<Footer />
 </div>
+
+<Contact />
 
 <style>
 	@media screen {
