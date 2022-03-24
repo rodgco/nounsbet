@@ -60,14 +60,14 @@ export default class Contract<TContract extends ethers.BaseContract, TState>
 		options: IOptions = {}
 	) {
 		const handleChainChanged = (chainId: string): void => {
-			if (browser && this.options.reloadOnChainChage) {
-				// window.location.reload();
-			} else {
-				this.state.update((current) => ({
-					...current,
-					correctChain: chainId === this.network.chainId
-				}));
-			}
+			// if (browser && this.options.reloadOnChainChage) {
+			// window.location.reload();
+			// } else {
+			this.state.update((current) => ({
+				...current,
+				correctChain: chainId === this.network.chainId
+			}));
+			// }
 		};
 
 		const handleAccountsChanged = (accounts: string[]): void => {
