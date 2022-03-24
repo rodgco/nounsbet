@@ -11,7 +11,7 @@
 	let image: string = '';
 
 	$: (async () => {
-		if (nounId && nounId < (await nounsToken.totalSupply())) {
+		if (nounId && nounId < $nounsToken.totalSupply) {
 			const seed = await nounsToken.getSeed(nounId);
 			const { parts, background } = getNounData(seed);
 			image = buildSVG(parts, palette, background);

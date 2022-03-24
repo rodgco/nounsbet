@@ -5,25 +5,39 @@ import { NounsTokenABI } from '@nouns/sdk';
 import type { NounsToken } from '@nouns/contracts/dist/typechain/NounsToken';
 import type { NounSeed } from '@nouns/assets/dist/types';
 
+import { get } from 'svelte/store';
+
 const chainId = <string>import.meta.env.VITE_NETWORK_CHAINID;
 const { nounsToken } = getContractAddressesForChainOrThrow(parseInt(chainId, 16));
 
-import type { ethers, BigNumberish } from 'ethers';
+import { ethers, BigNumber, type BigNumberish } from 'ethers';
 
 interface INounsTokenState {
 	totalSupply: BigNumberish;
+	seeds: Record<number, NounSeed>;
+}
+
+function deNumberish(n: BigNumberish): number {
+	if (typeof n === 'string') return parseInt(n);
+	if (n instanceof BigNumber) return n.toNumber();
+	if (typeof n === 'number') return n;
+	return Number(n);
 }
 
 class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 	constructor(network: string, address: string, abi: ethers.ContractInterface) {
-		super(network, address, abi, { totalSupply: null }, { forceChain: true });
+		super(network, address, abi, { totalSupply: null, seeds: {} }, { forceChain: true });
 
-		this.contract.on('NounCreated', (_tokenId: BigNumberish | null, _seed: null) =>
-			this.state.update((current) => ({
-				...current,
-				totalSupply: <number>current.totalSupply + 1
-			}))
-		);
+		this.contract.on('NounCreated', (tokenId: BigNumberish, seed: NounSeed) => {
+			const id = deNumberish(tokenId);
+			this.state.update((current) => {
+				current.seeds[id] = seed;
+				return {
+					...current,
+					totalSupply: <number>current.totalSupply + 1
+				};
+			});
+		});
 
 		this.load();
 	}
@@ -32,9 +46,21 @@ class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 		await this.totalSupply();
 	}
 
-	async getSeed(id: BigNumberish): Promise<NounSeed> {
+	async getSeed(tokenId: BigNumberish, useCache = true): Promise<NounSeed> {
+		const id = deNumberish(tokenId);
+		// Is id cached?
+		if (useCache && get(this.state).seeds[id]) {
+			return get(this.state).seeds[id];
+		}
 		try {
-			return <NounSeed>await this.contract.seeds(id);
+			const seed = <NounSeed>await this.contract.seeds(id);
+			// Cache seed
+			if (useCache)
+				this.state.update((current) => {
+					current.seeds[id] = seed;
+					return current;
+				});
+			return seed;
 		} catch {
 			return { background: null, body: null, accessory: null, head: null, glasses: null };
 		}
