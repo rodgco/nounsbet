@@ -28,7 +28,7 @@ body {
 	--shadow-chrome: 0 0.25em 1em 0.25em var(--color-shadow);
 	--shadow-button: 0 0.25em 0.25em 0.125em var(--color-shadow);
 	--shadow-formElement-focus: 0 0 0.25em 0.125em #038;
-	--border-hairline: 1px solid #2f2f2f;
+	--border-hairline: 1px solid #bdc0cf;
 
 	/* base measurements */
 	--maxWidth-constrain: 64rem;
