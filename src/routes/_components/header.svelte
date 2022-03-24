@@ -14,22 +14,7 @@
 </script>
 
 <header id="top">
-	<h1><a href="/">My Dapp</a></h1>
-	{#if !$nounsToken.hasWallet}
-		<p>You need a Wallet!</p>
-	{:else if !$nounsToken.currentAccount}
-		<button class="action" on:click={() => nounsToken.connect()}>Connect Wallet</button>
-	{:else}
-		<div class="info">
-			{$nounsToken.currentAccount.slice(0, 6)}...{$nounsToken.currentAccount.slice(-4)}
-		</div>
-		<div class="info">{$nounsToken.chainId}</div>
-		{#if !$nounsToken.correctChain}
-			<button class="action" on:click={() => nounsToken.changeNetwork('0x1')}
-				>Change to Polygon</button
-			>
-		{/if}
-	{/if}
+	<div id="logo"><a href="/"><img src="/bet.svg" /></a></div>
 	<button type="button" id="mainMenuOpen" hidden bind:this={opener} />
 	<nav>
 		<slot name="nav">
@@ -44,9 +29,15 @@
 	header {
 		padding: 0.5rem 1rem;
 		flex-grow: 0;
-		background: var(--color-chrome-bg);
 		display: flex;
-		border-bottom: var(--border-hairline);
+		align-items: center;
+	}
+	#logo ~ * {
+		flex-grow: 0;
+	}
+	#logo img {
+		padding: 0;
+		height: 3rem;
 	}
 	header :global(a) {
 		display: inline-block;
@@ -54,25 +45,34 @@
 		color: var(--color-flowText);
 	}
 	header nav {
-		padding: 0.5em 0;
+		padding: 0;
 	}
 	header :global(li) {
 		display: inline;
 		list-style: none;
-		margin-left: 1.5em;
+		margin-left: 0.75em;
 	}
-	header :global(li a) {
-		transition: transform 0.3s;
+	header :global(li :first-child) {
+		display: inline-flex;
+		align-items: center;
+		font-size: 0.9rem;
+		font-weight: 700;
+		border: var(--border-hairline);
+		border-radius: 10px;
+		padding: 0 0.75rem;
+		height: 2.5rem;
+		transition: background-color 0.3s;
 	}
-	header :global(li a:focus),
-	header :global(li a:hover) {
-		transform: scale(1.25);
+	header :global(li :first-child:focus),
+	header :global(li :first-child:hover) {
+		background-color: var(--color-featured-bg);
 	}
-	h1 {
-		font-size: 1.5em;
+	header :global(li button:focus-visible) {
+		outline: -webkit-focus-ring-color auto 1px;
+		box-shadow: none;
 	}
-	h1 ~ * {
-		flex-grow: 0;
+	header :global(li :first-child.info) {
+		background-color: var(--color-featured-bg);
 	}
 	#mainMenuOpen + nav :global(ul:after) {
 		top: 0.88rem;
@@ -94,8 +94,8 @@
 			display: block;
 			flex-grow: 0;
 			line-height: 1;
-			width: 2em;
-			height: 2em;
+			width: 1.5em;
+			height: 1.5em;
 			border: 0;
 			background: transparent
 				url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='black' d='M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z'%3E%3C/path%3E%3C/svg%3E")
@@ -181,16 +181,5 @@
 			display: block;
 			position: absolute;
 		}
-	}
-	.action {
-		padding: 0.5rem 1rem;
-		height: 2rem;
-	}
-	.info {
-		padding: 0.5rem 1rem;
-		background-color: skyblue;
-		color: white;
-		font-weight: bold;
-		border-radius: 3px;
 	}
 </style>
