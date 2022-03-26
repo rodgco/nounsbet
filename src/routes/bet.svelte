@@ -7,34 +7,31 @@
 	const { palette, images, bgcolors: backgrounds } = ImageData;
 	const { bodies, accessories, heads, glasses } = images;
 
-	let body: number, accessory: number, head: number, glassy: number;
+	let body: number = -1,
+		accessory: number = -1,
+		head: number = -1,
+		glassy: number = -1;
 
-	let imageBody: string, imageAccessory: string, imageHead: string, imageGlasses: string;
+	let imageBody: string = '',
+		imageAccessory: string = '',
+		imageHead: string = '',
+		imageGlasses: string = '';
 
-	$: partsBody = [bodies[body]];
-	$: imageBody = buildSVG(
-		partsBody.filter((e) => !!e),
-		palette,
-		backgrounds[0]
-	);
-	$: partsAccessory = [accessories[accessory]];
-	$: imageAccessory = buildSVG(
-		partsAccessory.filter((e) => !!e),
-		palette,
-		backgrounds[0]
-	);
-	$: partsHead = [heads[head]];
-	$: imageHead = buildSVG(
-		partsHead.filter((e) => !!e),
-		palette,
-		backgrounds[0]
-	);
-	$: partsGlasses = [glasses[glassy]];
-	$: imageGlasses = buildSVG(
-		partsGlasses.filter((e) => !!e),
-		palette,
-		backgrounds[0]
-	);
+	function notNullish(value: any): boolean {
+		return value !== null && value !== undefined;
+	}
+
+	$: partsBody = [bodies[body]].filter(notNullish);
+	$: imageBody = buildSVG(partsBody, palette, backgrounds[0]);
+
+	$: partsAccessory = [accessories[accessory]].filter(notNullish);
+	$: imageAccessory = buildSVG(partsAccessory, palette, backgrounds[0]);
+
+	$: partsHead = [heads[head]].filter(notNullish);
+	$: imageHead = buildSVG(partsHead, palette, backgrounds[0]);
+
+	$: partsGlasses = [glasses[glassy]].filter(notNullish);
+	$: imageGlasses = buildSVG(partsGlasses, palette, backgrounds[0]);
 
 	function randomize() {
 		body = Math.floor(Math.random() * 100_000) % bodies.length;
