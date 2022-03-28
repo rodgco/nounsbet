@@ -114,5 +114,11 @@
 		"nativeCurrency": { "name": "MATIC", "symbol": "MATIC", "decimals": 18 },
 		"chainId": "0x13881",
 		"blockExplorerUrls": ["https://mumbai.polygonscan.com"]
+	},
+	{
+		"chainName": "Local (Hardhat)",
+		"rpcUrls": ["http://127.0.0.1:8545"],
+		"nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+		"chainId": "0x7a69"
 	}
 ]

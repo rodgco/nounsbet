@@ -17,6 +17,7 @@ interface IOptions {
 	forceChain?: boolean;
 	pollingInterval?: number;
 	reloadOnChainChage?: boolean;
+	forceRPCProvider?: boolean;
 }
 
 interface AddEthereumChainParameter {
@@ -44,7 +45,8 @@ export default class Contract<TContract extends ethers.BaseContract, TState>
 	protected options: IOptions = {
 		reloadOnChainChage: true,
 		forceChain: true,
-		pollingInterval: 4000
+		pollingInterval: 4000,
+		forceRPCProvider: false
 	};
 
 	public subscribe: (
@@ -110,7 +112,7 @@ export default class Contract<TContract extends ethers.BaseContract, TState>
 		 *  | .__/|_|  \___/ \_/ |_|\__,_|\___|_|  |___/
 		 *  |_|
 		 */
-		if (browser && window.ethereum) {
+		if (!this.options.forceRPCProvider && browser && window.ethereum) {
 			// Web3 Provider
 			this.state.update((current) => ({ ...current, hasWallet: true }));
 			this.provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -146,7 +148,7 @@ export default class Contract<TContract extends ethers.BaseContract, TState>
 	}
 
 	connect() {
-		if (window.ethereum) {
+		if (!this.options.forceRPCProvider && browser && window.ethereum) {
 			window.ethereum
 				.request({ method: 'eth_requestAccounts' })
 				// .then(handleAccountsChanged)
@@ -162,6 +164,8 @@ export default class Contract<TContract extends ethers.BaseContract, TState>
 
 	async changeNetwork(chainId: string | null) {
 		try {
+			if (this.options.forceRPCProvider)
+				throw new Error('No need to change network, get a new provider');
 			if (!browser && !window.ethereum) throw new Error('No crypto wallet found');
 			await window.ethereum.request({
 				method: 'wallet_switchEthereumChain',

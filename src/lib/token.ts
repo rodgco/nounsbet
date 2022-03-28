@@ -7,7 +7,7 @@ import type { NounSeed } from '@nouns/assets/dist/types';
 
 import { get } from 'svelte/store';
 
-const chainId = <string>import.meta.env.VITE_NETWORK_CHAINID;
+const chainId = <string>import.meta.env.VITE_NOUNS_CHAINID;
 const { nounsToken } = getContractAddressesForChainOrThrow(parseInt(chainId, 16));
 
 import { ethers, BigNumber, type BigNumberish } from 'ethers';
@@ -26,7 +26,7 @@ function deNumberish(n: BigNumberish): number {
 
 class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 	constructor(network: string, address: string, abi: ethers.ContractInterface) {
-		super(network, address, abi, { totalSupply: null, seeds: {} }, { forceChain: true });
+		super(network, address, abi, { totalSupply: null, seeds: {} }, { forceRPCProvider: true });
 
 		this.contract.on('NounCreated', (tokenId: BigNumberish, seed: NounSeed) => {
 			const id = deNumberish(tokenId);
@@ -40,6 +40,8 @@ class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 		});
 
 		this.load();
+
+		console.log(this.contract);
 	}
 
 	async load() {
@@ -78,6 +80,7 @@ class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 	}
 }
 
+console.log('Token Instance', chainId, nounsToken);
 const nounsTokenInstance = new NounsTokenContract(chainId, nounsToken, NounsTokenABI);
 // nounsTokenInstance.load();
 
