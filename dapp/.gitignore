@@ -9,3 +9,5 @@ cache
 artifacts
 
 **/*.xxx
+
+.openzeppelin/unknown-*.json
