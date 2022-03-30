@@ -14,12 +14,12 @@
 </script>
 
 <header id="top">
-	<div id="logo"><a href="/"><img src="/bet.svg" /></a></div>
+	<div id="logo"><a href="/"><img src="/bet.svg" alt="nounsbet logo" /></a></div>
 	<button type="button" id="mainMenuOpen" hidden bind:this={opener} />
 	<nav>
 		<slot name="nav">
 			<ul>
-				<li><a href="#">Entry</a></li>
+				<li><span>Entryi</span></li>
 			</ul>
 		</slot>
 	</nav>

@@ -33,7 +33,6 @@
 			.getSeed(nounId)
 			.then((seed) => ({ background, body, accessory, head, glasses: glassy } = seed));
 	}
-	$: console.log({ nounId, background, body, accessory, head, glassy });
 
 	$: parts = [bodies[body], accessories[accessory], heads[head], glasses[glassy]].filter(
 		notNullish

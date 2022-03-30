@@ -1,10 +1,9 @@
-interface ActionReturn<Parameter = any> {
+interface ActionReturn<Parameter = unknown> {
 	update?: (parameter: Parameter) => void;
 	destroy?: () => void;
 }
 
 export default function (node: HTMLBodyElement, color: string): ActionReturn<string> {
-	console.log(node, color);
 	node.style.setProperty('--color-main-bg', `#${color}`);
 
 	return {

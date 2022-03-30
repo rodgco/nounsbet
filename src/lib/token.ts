@@ -40,8 +40,6 @@ class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 		});
 
 		this.load();
-
-		console.log(this.contract);
 	}
 
 	async load() {
@@ -80,8 +78,6 @@ class NounsTokenContract extends Contract<NounsToken, INounsTokenState> {
 	}
 }
 
-console.log('Token Instance', chainId, nounsToken);
 const nounsTokenInstance = new NounsTokenContract(chainId, nounsToken, NounsTokenABI);
-// nounsTokenInstance.load();
 
 export default nounsTokenInstance;
