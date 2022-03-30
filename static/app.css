@@ -6,6 +6,8 @@ body {
 	--sat-secondary: 69%;
 	--hue-featured: 41;
 	--sat-featured: 69%;
+	--hue-nav-anchor: 0;
+	--sat-nav-anchor: 0%;
 	--luma-flowText: 15%;
 	--luma-headings: 100%;
 	--luma-featured: 52%;
@@ -22,7 +24,7 @@ body {
 	--color-heading-text: hsl(var(--hue-primary), var(--sat-primary), var(--luma-headings));
 	--color-modal-fader: hsla(var(--hue-primary), var(--sat-primary), var(--luma-fader), 0.8);
 	--color-modal-bg: hsl(var(--hue-primary), var(--sat-primary), var(--luma-main-bg));
-	--color-nav-anchor: hsl(var(--hue-featured), var(--sat-primary), var(--luma-nav));
+	--color-nav-anchor: hsl(var(--hue-nav-anchor), var(--sat-nav-anchor), var(--luma-flowText));
 	--color-article-bg: hsl(var(--hue-primary), var(--sat-primary), var(--luma-article-bg));
 	--color-shadow: #0003;
 	--shadow-chrome: 0 0.25em 1em 0.25em var(--color-shadow);

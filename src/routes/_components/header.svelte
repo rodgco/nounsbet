@@ -42,18 +42,22 @@
 	header :global(a) {
 		display: inline-block;
 		text-decoration: none;
-		color: var(--color-flowText);
+		color: var(--color-nav-anchor);
 	}
 	header nav {
 		padding: 0;
 	}
-	header :global(li) {
-		display: inline;
-		list-style: none;
-		margin-left: 0.75em;
+	header nav :global(ul) {
+		display: flex;
+		gap: 0.75rem;
 	}
-	header :global(li :first-child) {
-		display: inline-flex;
+	header :global(li) {
+		list-style: none;
+	}
+	header :global(li > a),
+	header :global(li > button) {
+		display: flex;
+		gap: 0.5rem;
 		align-items: center;
 		font-size: 0.9rem;
 		font-weight: 700;
@@ -63,15 +67,15 @@
 		height: 2.5rem;
 		transition: background-color 0.3s;
 	}
-	header :global(li :first-child:focus),
-	header :global(li :first-child:hover) {
+	header :global(li > :first-child:focus),
+	header :global(li > :first-child:hover) {
 		background-color: var(--color-featured-bg);
 	}
 	header :global(li button:focus-visible) {
 		outline: -webkit-focus-ring-color auto 1px;
 		box-shadow: none;
 	}
-	header :global(li :first-child.info) {
+	header :global(li > :first-child.info) {
 		background-color: var(--color-featured-bg);
 	}
 	#mainMenuOpen + nav :global(ul:after) {
@@ -141,6 +145,7 @@
 		#mainMenuOpen:focus + nav :global(ul),
 		#mainMenuOpen + nav:focus-within :global(ul) {
 			top: 0;
+			gap: 0;
 		}
 		#mainMenuOpen + nav :global(li) {
 			width: 34%;

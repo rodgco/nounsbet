@@ -2,6 +2,8 @@
 	import Header from './_components/header.svelte';
 	import Footer from './_components/footer.svelte';
 
+	import Icon from './_components/icon.svelte';
+
 	import nounsToken from '$lib/token';
 
 	import Contact from './modals/_Contact.svelte';
@@ -10,9 +12,9 @@
 <div id="fauxBody">
 	<Header>
 		<ul slot="nav">
-			<li><a href="/bet">App</a></li>
-			<li><a href="/about">About</a></li>
-			<li><a href="/faq">FAQ</a></li>
+			<li><a href="/bet"><Icon>play</Icon>App</a></li>
+			<li><a href="/about"><Icon>info-circle</Icon>About</a></li>
+			<li><a href="/faq"><Icon>qa</Icon>FAQ</a></li>
 			<li><a href="#contact" class="action">Contact</a></li>
 			{#if !$nounsToken.currentAccount}
 				<li><button class="action" on:click={() => nounsToken.connect()}>Connect</button></li>
