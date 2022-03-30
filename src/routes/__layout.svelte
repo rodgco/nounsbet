@@ -48,11 +48,11 @@
 			flex-direction: column;
 			height: 100%;
 			overflow: auto;
-			background: var(--color-main-bg);
+			/* background: var(--color-main-bg); */
 			color: var(--color-flowText);
 		}
 		main {
-			background-color: var(--color-modal-bg);
+			/* background-color: var(--color-main-bg); */
 		}
 	}
 </style>
